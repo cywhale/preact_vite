@@ -43,12 +43,15 @@
     "serve": "serve dist"
   },
   "dependencies": {
+    "@preact/signals": "^1.0.3",
     "preact": "^10.10.6",
     "preact-router": "^4.1.0"
   },
   "devDependencies": {
+    "@iconify-json/carbon": "^1.1.7",
     "@preact/preset-vite": "^2.4.0",
     "@rollup/plugin-replace": "^4.0.0",
+    "@unocss/preset-icons": "^0.45.18",
     "cross-env": "^7.0.3",
     "esbuild": "^0.15.7",
     "fs": "^0.0.1-security",

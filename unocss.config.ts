@@ -2,29 +2,32 @@
 import {
   defineConfig,
   presetAttributify,
-  presetIcons,
+  //presetIcons,
   presetUno,
   presetWebFonts,
   //transformerDirectives,
   //transformerVariantGroup,
 } from 'unocss'
-
+import presetIcons from '@unocss/preset-icons/browser'
 //const presets: Preset[] = []
 //const transformers: SourceCodeTransformer[] = []
 
 export default defineConfig({
+  darkMode: 'class',
   shortcuts: [{
-    'bg-base': 'bg-gray-100 dark:bg-dark',
-    'bg-base-second': 'bg-white dark:bg-dark-100',
-    'color-base': 'text-gray-700 dark:text-white/80',
-    'color-base-second': 'text-gray-400 dark:text-gray-500/50',
-    'border-base': 'border border-gray-200 dark:border-gray/50',
-    'bg-primary': 'bg-light-blue-500 dark:bg-light-blue-600/80',
+    'bg-base': 'bg-white-100 dark:bg-dark-100',
+    'color-base': 'text-gray-900 dark:text-gray-300',
+    'border-base': 'border-gray-200 dark:border-dark-200',
+    'color-fade': 'text-gray-900:50 dark:text-gray-300:50',
     },
     {
       btn: 'py-2 px-4 font-semibold rounded-lg shadow-md',
     }, // dynamic shortcuts
-    [/^btn-(.*)$/, ([, c]) => `bg-${c}-400 text-${c}-100 py-2 px-4 rounded-lg`],
+    [/^btn-(.*)-(\d+)$/, ([, c, d]) => {
+      let e = (parseInt(d) + 200).toString()
+      return (`bg-${c}-${d} hover:bg-${c}-${e} text-${c}-50 font-semibold py-2 px-4 rounded-lg`)
+    }],
+    [/^btn-(.*)$/, ([, c]) => `bg-${c}-400 hover:bg-${c}-700 text-${c}-50 font-semibold py-2 px-4 rounded-lg`],
   ],
   variants: [
       // hover:
@@ -41,7 +44,13 @@ export default defineConfig({
   presets: [
     presetUno(),
     presetIcons({
-      //scale: 1.2,
+      cdn: 'https://esm.sh/',
+      //collections: {
+      //  carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default),
+        //mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default),
+        //logos: () => import('@iconify-json/logos/icons.json').then(i => i.default),
+      //},
+      scale: 2,
       //warn: true,
       extraProperties: {
         'display': 'inline-block',
