@@ -22,14 +22,14 @@ function Home() {
   return (
     <div className="Home">
       <p>
-        <button type="button" onClick={() => setCount(count => count + 1)}>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" type="button" onClick={() => setCount(count => count + 1)}>
             count is: {count}
         </button>
       </p>
       <br />
       <form onSubmit={handleSubmit}>
         <input value={name} onChange={handleChange} type="text" aria-label="What's your name?" placeholder="What's your name?" />
-        <button type="submit">GO</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" type="submit">GO</button>
       </form>
       <br/>
       <a href="/about">About</a>

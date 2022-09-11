@@ -1,3 +1,4 @@
+import 'uno.css'
 import { Router } from 'preact-router'
 
 import ReloadPrompt from './ReloadPrompt'

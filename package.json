@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true vite --force",
+    "dev": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true vite --force --port 3006",
     "dev-claims": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true CLAIMS=true SW=true vite --force",
     "dev-destroy": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DESTROY=true SW_DEV=true vite --force",
     "dev-claims-destroy": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DESTROY=true SW_DEV=true CLAIMS=true SW=true vite --force",
@@ -55,6 +55,7 @@
     "https-localhost": "^4.7.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4",
+    "unocss": "^0.45.18",
     "vite": "^2.9.15",
     "vite-plugin-pwa": "^0.12.7",
     "workbox-core": "^6.5.3",
