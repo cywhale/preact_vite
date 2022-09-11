@@ -75,43 +75,19 @@ export default defineConfig({
     sourcemap: process.env.SOURCE_MAP === 'true',
   },
   plugins: [
+    Unocss(/*[
+      presetUno(),
+      presetAttributify(),
+      presetIcons({
+        //scale: 1.2,
+      }),
+    ]*/
+    ),
     preact(),
     VitePWA(pwaOptions),
     replace({
       __DATE__: new Date().toISOString(),
       __RELOAD_SW__: process.env.RELOAD_SW === 'true' ? 'true' : 'false',
-    }),
-    Unocss({
-      presets: [
-        presetAttributify({ /* preset options */}),
-        presetUno(),
-        presetIcons({extraProperties: {
-          'display': 'inline-block',
-          'vertical-align': 'middle',
-        }}),
-      ],
-      /*variants: [
-      // hover:
-        (matcher) => {
-          if (!matcher.startsWith('hover:'))
-            return matcher
-
-          return { // slice `hover:` prefix and passed to the next variants and rules
-            matcher: matcher.slice(6),
-            selector: s => `${s}:hover`,
-          }
-        }
-      ],*/
-      //rules: [
-      //  [/^m-(\d+)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
-      //  [/^p-(\d+)$/, match => ({ padding: `${match[1] / 4}rem` })],
-      //],
-      /*shortcuts: [
-        {
-          btn: 'py-2 px-4 font-semibold rounded-lg shadow-md',
-        }, // dynamic shortcuts
-        [/^btn-(.*)$/, ([, c]) => `bg-${c}-400 text-${c}-100 py-2 px-4 rounded-lg`],
-      ],*/
     }),
   ],
   server:{

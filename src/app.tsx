@@ -1,4 +1,3 @@
-import 'uno.css'
 import { Router } from 'preact-router'
 
 import ReloadPrompt from './ReloadPrompt'
@@ -7,6 +6,7 @@ import About from './pages/About'
 import Hi from './pages/hi/[name]'
 
 import './App.css'
+import 'uno.css'
 
 export function App() {
   // replaced dyanmicaly
