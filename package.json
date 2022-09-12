@@ -1,7 +1,6 @@
 {
   "name": "preact_vite",
   "version": "0.0.2",
-  "homepage": "/cli/",
   "private": true,
   "scripts": {
     "dev": "export NODE_ENV=development && rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true vite --force --port 3006",
@@ -16,7 +15,7 @@
     "start-sw-reloadsw": "npm run run-build-sw-reloadsw && npm run serve",
     "start-sw-claims": "npm run run-build-sw-claims && npm run serve",
     "start-sw-claims-reloadsw": "npm run run-build-sw-claims-reloadsw && npm run serve",
-    "build": "rimraf dist && cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true vite build",
+    "build": "export NODE_ENV==production && rimraf dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=false CLAIMS=true RELOAD_SW=true SW=true BASE_URL=/ SOURCE_MAP=true vite build",
     "run-build": "rimraf dist && cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true vite build",
     "run-build-reloadsw": "rimraf dist && cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true RELOAD_SW=true vite build",
     "run-build-claims": "rimraf dist && cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true CLAIMS=true vite build",
@@ -41,7 +40,9 @@
     "run-build-sw-reloadsw-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true RELOAD_SW=true SW=true vite build",
     "run-build-sw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true SW=true vite build",
     "run-build-sw-reloadsw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true RELOAD_SW=true SW=true vite build",
-    "serve": "export PORT=3006 && export NODE_ENV==production && sirv build --cors --port 3006 --http2 --cert cert/fullchain.pem --key cert/privkey.pem"
+    "preview": "export PORT=3006 && export NODE_ENV==production && vite preview --port 3006",
+    "https": "export PORT=3006 && serve dist --cors -p 3006 --ssl-cert ./cert/fullchain.pem --ssl-key ./cert/privkey.pem",
+    "prod": "export PORT=3006 && export NODE_ENV==production && sirv dist --cors --single --port 3006 --http2 --cert ./cert/fullchain.pem --key ./cert/privkey.pem"
   },
   "dependencies": {
     "@preact/signals": "^1.0.3",

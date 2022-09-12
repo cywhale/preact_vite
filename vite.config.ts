@@ -15,8 +15,8 @@ const pwaOptions: Partial<VitePWAOptions> = {
   includeAssets: ['favicon.svg'],
   manifest: Manifest,
   devOptions: {
-    enabled: process.env.SW_DEV === 'true' || !isProd,
-    /* when using generateSW the PWA plugin will switch to classic */
+    enabled: process.env.SW_DEV === 'true' && !isProd,
+    // when using generateSW the PWA plugin will switch to classic
     type: 'module',
     navigateFallback: 'index.html',
   },
@@ -49,24 +49,35 @@ if (selfDestroying)
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  root: './',
+  //root: './',
   base: '/cli/',
   //publicDir: './cli/public',
   mode: isProd? "production" : "development",
   build: {
     sourcemap: process.env.SOURCE_MAP === 'true' || !isProd,
     manifest: true,
-    outDir: resolve(__dirname, './build/cli/'),
+    outDir: resolve(__dirname, './dist/cli/'),
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        //main: resolve(__dirname, 'index.html'),
-        cli: resolve(__dirname, 'index.html')
+        main: resolve(__dirname, 'index.html'),
+    //  cli: resolve(__dirname, 'index.html'),
       }
     }
   },
   define: {
     'process.env': process.env
+  },
+  resolve: {
+  //fallback: resolve(__dirname, 'src'),
+    extensions: ['.js', '.jsx', 'ts', 'tsx'],
+    mainFields: ['module'],
+    alias: {
+      "react": "preact/compat",
+      "react-dom": "preact/compat",
+      "react-dom/test-utils": "preact/test-utils",
+      "react/jsx-runtime": "preact/jsx-runtime",
+    }
   },
   plugins: [
     Unocss(),
@@ -78,10 +89,10 @@ export default defineConfig({
     }),
   ],
   server:{
-    watch: {
-        usePolling: isProd? false : true,
-    },
-    hmr: {clientPort: 3006, host:'localhost'},
+    //watch: {
+    //    usePolling: isProd? false : true,
+    //},
+    //hmr: {clientPort: 3006, host:'localhost'},
     https: {
       key: fs.readFileSync(`${__dirname}/cert/privkey.pem`),
       cert: fs.readFileSync(`${__dirname}/cert/fullchain.pem`),

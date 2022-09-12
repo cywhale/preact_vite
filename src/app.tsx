@@ -14,6 +14,7 @@ const history = createBrowserHistory({
 
 export function App() {
   // replaced dyanmicaly
+  // <ReloadPrompt /> //if disable SW(PWA)
   const date = '__DATE__'
   return (
     <>
