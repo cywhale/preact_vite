@@ -15,7 +15,7 @@ import presetIcons from '@unocss/preset-icons/browser'
 export default defineConfig({
   darkMode: 'class',
   shortcuts: [{
-    'bg-base': 'bg-white-100 dark:bg-dark-100',
+    'bg-base': 'bg-white dark:bg-dark-100',
     'color-base': 'text-gray-900 dark:text-gray-300',
     'border-base': 'border-gray-200 dark:border-dark-200',
     'color-fade': 'text-gray-900:50 dark:text-gray-300:50',

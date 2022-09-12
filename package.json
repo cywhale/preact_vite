@@ -1,9 +1,10 @@
 {
   "name": "preact_vite",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "homepage": "/cli/",
   "private": true,
   "scripts": {
-    "dev": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true vite --force --port 3006",
+    "dev": "export NODE_ENV=development && rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true vite --force --port 3006",
     "dev-claims": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true CLAIMS=true SW=true vite --force",
     "dev-destroy": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DESTROY=true SW_DEV=true vite --force",
     "dev-claims-destroy": "rimraf dev-dist && cross-env DEBUG=vite-plugin-pwa:* SW_DESTROY=true SW_DEV=true CLAIMS=true SW=true vite --force",
@@ -40,10 +41,11 @@
     "run-build-sw-reloadsw-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true RELOAD_SW=true SW=true vite build",
     "run-build-sw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true SW=true vite build",
     "run-build-sw-reloadsw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true RELOAD_SW=true SW=true vite build",
-    "serve": "serve dist"
+    "serve": "export PORT=3006 && export NODE_ENV==production && sirv build --cors --port 3006 --http2 --cert cert/fullchain.pem --key cert/privkey.pem"
   },
   "dependencies": {
     "@preact/signals": "^1.0.3",
+    "history": "^5.3.0",
     "preact": "^10.10.6",
     "preact-router": "^4.1.0"
   },
@@ -56,6 +58,7 @@
     "esbuild": "^0.15.7",
     "fs": "^0.0.1-security",
     "https-localhost": "^4.7.1",
+    "path": "^0.12.7",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4",
     "unocss": "^0.45.18",

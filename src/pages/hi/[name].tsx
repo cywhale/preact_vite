@@ -8,7 +8,7 @@ function Hi(props: RouteProps<{ name: string }>) {
       <div><strong>/hi</strong> route, built at: { date }</div>
       <p>Hi: { props.name }</p>
       <br />
-      <a href="/">Go Home</a>
+      <a href="/cli">Go Home</a>
     </div>
   )
 }

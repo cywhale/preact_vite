@@ -5,7 +5,7 @@ function About() {
     <div className="About">
       <div><strong>/about</strong> route, built at: { date }</div>
       <br />
-      <a href="/">Go Home</a>
+      <a href="/cli">Go Home</a>
     </div>
   )
 }

@@ -27,7 +27,7 @@ function Home() {
   const handleSubmit = (event) => {
     event.preventDefault()
     if (name)
-      route(`/hi/${name}`)
+      route(`/cli/hi/${name}`)
   }
 
   return (
@@ -43,7 +43,7 @@ function Home() {
         <button className="btn-blue-500" type="submit">GO</button>
       </form>
       <br/>
-      <a className="dark:text-sky-300 dark:visited:text-violet-400" href="/about">About</a>
+      <a className="dark:text-sky-300 dark:visited:text-violet-400" href="/cli/about">About</a>
       <br/><br/>
       <div>
         <button className="i-carbon-moon dark:i-carbon-sun dark:text-white fill-white" type="submit" onClick={selectTheme} />

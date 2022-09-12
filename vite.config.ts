@@ -1,43 +1,21 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 import preact from '@preact/preset-vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import type { ManifestOptions, VitePWAOptions } from 'vite-plugin-pwa'
 import replace from '@rollup/plugin-replace'
 import fs from 'fs'
 import Unocss from 'unocss/vite'
-import { presetAttributify, presetUno, presetIcons } from 'unocss'
 //import 'virtual:unocss-devtools'
+import Manifest from './src/assets/manifest.json'
+
+const isProd = process.env.NODE_ENV === "production"
 
 const pwaOptions: Partial<VitePWAOptions> = {
-  mode: 'development',
-  base: '',
   includeAssets: ['favicon.svg'],
-  manifest: {
-    name: 'preact_vite',
-    short_name: 'PWA Router',
-    theme_color: '#ffffff',
-    //start_url: '/cli/',
-    icons: [
-      {
-        src: 'pwa-192x192.png', // <== don't add slash, for testing
-        sizes: '192x192',
-        type: 'image/png',
-      },
-      {
-        src: '/pwa-512x512.png', // <== don't remove slash, for testing
-        sizes: '512x512',
-        type: 'image/png',
-      },
-      {
-        src: 'pwa-512x512.png', // <== don't add slash, for testing
-        sizes: '512x512',
-        type: 'image/png',
-        purpose: 'any maskable',
-      },
-    ],
-  },
+  manifest: Manifest,
   devOptions: {
-    enabled: process.env.SW_DEV === 'true',
+    enabled: process.env.SW_DEV === 'true' || !isProd,
     /* when using generateSW the PWA plugin will switch to classic */
     type: 'module',
     navigateFallback: 'index.html',
@@ -71,19 +49,27 @@ if (selfDestroying)
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  //base: '',
+  root: './',
+  base: '/cli/',
+  //publicDir: './cli/public',
+  mode: isProd? "production" : "development",
   build: {
-    sourcemap: process.env.SOURCE_MAP === 'true',
+    sourcemap: process.env.SOURCE_MAP === 'true' || !isProd,
+    manifest: true,
+    outDir: resolve(__dirname, './build/cli/'),
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        //main: resolve(__dirname, 'index.html'),
+        cli: resolve(__dirname, 'index.html')
+      }
+    }
+  },
+  define: {
+    'process.env': process.env
   },
   plugins: [
-    Unocss(/*[
-      presetUno(),
-      presetAttributify(),
-      presetIcons({
-        //scale: 1.2,
-      }),
-    ]*/
-    ),
+    Unocss(),
     preact(),
     VitePWA(pwaOptions),
     replace({
@@ -92,6 +78,10 @@ export default defineConfig({
     }),
   ],
   server:{
+    watch: {
+        usePolling: isProd? false : true,
+    },
+    hmr: {clientPort: 3006, host:'localhost'},
     https: {
       key: fs.readFileSync(`${__dirname}/cert/privkey.pem`),
       cert: fs.readFileSync(`${__dirname}/cert/fullchain.pem`),
