@@ -42,32 +42,32 @@
     "run-build-sw-reloadsw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true RELOAD_SW=true SW=true vite build",
     "preview": "export PORT=3006 && export NODE_ENV==production && vite preview --port 3006",
     "https": "export PORT=3006 && serve dist --cors -p 3006 --ssl-cert ./cert/fullchain.pem --ssl-key ./cert/privkey.pem",
-    "prod": "export PORT=3006 && export NODE_ENV==production && sirv dist --cors --single --port 3006 --http2 --cert ./cert/fullchain.pem --key ./cert/privkey.pem"
+    "prod": "export PORT=3006 && export NODE_ENV=production && sirv dist --cors --single --port 3006 --http2 --cert ./cert/fullchain.pem --key ./cert/privkey.pem"
   },
   "dependencies": {
-    "@preact/signals": "^1.0.3",
+    "@preact/signals": "^1.1.1",
     "history": "^5.3.0",
-    "preact": "^10.10.6",
+    "preact": "^10.11.0",
     "preact-router": "^4.1.0"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.7",
+    "@iconify-json/carbon": "^1.1.8",
     "@preact/preset-vite": "^2.4.0",
     "@rollup/plugin-replace": "^4.0.0",
-    "@unocss/preset-icons": "^0.45.18",
+    "@unocss/preset-icons": "^0.45.25",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.15.7",
+    "esbuild": "^0.15.9",
     "fs": "^0.0.1-security",
     "https-localhost": "^4.7.1",
     "path": "^0.12.7",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.4",
-    "unocss": "^0.45.18",
-    "vite": "^2.9.15",
-    "vite-plugin-pwa": "^0.12.7",
-    "workbox-core": "^6.5.3",
-    "workbox-precaching": "^6.5.3",
-    "workbox-routing": "^6.5.3",
-    "workbox-window": "^6.5.3"
+    "typescript": "^4.8.4",
+    "unocss": "^0.45.25",
+    "vite": "^3.1.4",
+    "vite-plugin-pwa": "^0.13.1",
+    "workbox-core": "^6.5.4",
+    "workbox-precaching": "^6.5.4",
+    "workbox-routing": "^6.5.4",
+    "workbox-window": "^6.5.4"
   }
 }
