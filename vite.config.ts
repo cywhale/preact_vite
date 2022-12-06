@@ -1,83 +1,83 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'path'
-import preact from '@preact/preset-vite'
-import { VitePWA } from 'vite-plugin-pwa'
-import type { ManifestOptions, VitePWAOptions } from 'vite-plugin-pwa'
-import replace from '@rollup/plugin-replace'
-import fs from 'fs'
-import Unocss from 'unocss/vite'
+import { defineConfig } from "vite";
+import { resolve } from "path";
+import preact from "@preact/preset-vite";
+import { VitePWA } from "vite-plugin-pwa";
+import type { ManifestOptions, VitePWAOptions } from "vite-plugin-pwa";
+import replace from "@rollup/plugin-replace";
+import fs from "fs";
+import Unocss from "unocss/vite";
 //import 'virtual:unocss-devtools'
-import Manifest from './src/assets/manifest.json'
+import Manifest from "./src/assets/manifest.json";
 
-const isProd = process.env.NODE_ENV === "production"
+const isProd = process.env.NODE_ENV === "production";
 
 const pwaOptions: Partial<VitePWAOptions> = {
-  includeAssets: ['favicon.svg'],
+  includeAssets: ["favicon.svg"],
   manifest: Manifest,
   devOptions: {
-    enabled: process.env.SW_DEV === 'true' && !isProd,
+    enabled: process.env.SW_DEV === "true" && !isProd,
     // when using generateSW the PWA plugin will switch to classic
-    type: 'module',
-    navigateFallback: 'index.html',
+    type: "module",
+    navigateFallback: "index.html",
   },
+};
+
+const replaceOptions = { __DATE__: new Date().toISOString() };
+const claims = process.env.CLAIMS === "true";
+const reload = process.env.RELOAD_SW === "true";
+const selfDestroying = process.env.SW_DESTROY === "true";
+
+if (process.env.SW === "true") {
+  pwaOptions.srcDir = "src";
+  pwaOptions.filename = claims ? "claims-sw.ts" : "prompt-sw.ts";
+  pwaOptions.strategies = "injectManifest";
+  (pwaOptions.manifest as Partial<ManifestOptions>).name =
+    "PWA Inject Manifest";
+  (pwaOptions.manifest as Partial<ManifestOptions>).short_name = "PWA Inject";
 }
 
-const replaceOptions = { __DATE__: new Date().toISOString() }
-const claims = process.env.CLAIMS === 'true'
-const reload = process.env.RELOAD_SW === 'true'
-const selfDestroying = process.env.SW_DESTROY === 'true'
-
-if (process.env.SW === 'true') {
-  pwaOptions.srcDir = 'src'
-  pwaOptions.filename = claims ? 'claims-sw.ts' : 'prompt-sw.ts'
-  pwaOptions.strategies = 'injectManifest'
-  ;(pwaOptions.manifest as Partial<ManifestOptions>).name = 'PWA Inject Manifest'
-  ;(pwaOptions.manifest as Partial<ManifestOptions>).short_name = 'PWA Inject'
-}
-
-if (claims)
-  pwaOptions.registerType = 'autoUpdate'
+if (claims) pwaOptions.registerType = "autoUpdate";
 
 if (reload) {
   // @ts-expect-error just ignore
-  replaceOptions.__RELOAD_SW__ = 'true'
+  replaceOptions.__RELOAD_SW__ = "true";
 }
 
-if (selfDestroying)
-  pwaOptions.selfDestroying = selfDestroying
-
+if (selfDestroying) pwaOptions.selfDestroying = selfDestroying;
 
 // https://vitejs.dev/config/
 export default defineConfig({
   //root: './',
-  base: '/cli/',
+  base: "/cli/",
   //publicDir: './cli/public',
-  mode: isProd? "production" : "development",
+  mode: isProd ? "production" : "development",
   build: {
-    sourcemap: process.env.SOURCE_MAP === 'true' || !isProd,
+    sourcemap: process.env.SOURCE_MAP === "true" || !isProd,
     manifest: true,
-    outDir: resolve(__dirname, './dist/cli/'),
+    outDir: resolve(__dirname, "./dist/cli/"),
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-    //  cli: resolve(__dirname, 'index.html'),
-      }
-    }
+        main: resolve(__dirname, "index.html"),
+        //  cli: resolve(__dirname, 'index.html'),
+      },
+    },
   },
   define: {
-    'process.env': process.env
+    "process.env": process.env,
   },
   resolve: {
-  //fallback: resolve(__dirname, 'src'),
-    extensions: ['.js', '.jsx', 'ts', 'tsx'],
-    mainFields: ['module'],
+    //fallback: resolve(__dirname, 'src'),
+    extensions: [".js", ".jsx", "ts", "tsx"],
+    mainFields: ["module"],
     alias: {
-      "react": "preact/compat",
+      firebaseApp: "https://cdn.skypack.dev/firebase@9.13.0/app",
+      firebaseAuth: "https://cdn.skypack.dev/firebase@9.13.0/auth",
+      react: "preact/compat",
       "react-dom": "preact/compat",
       "react-dom/test-utils": "preact/test-utils",
       "react/jsx-runtime": "preact/jsx-runtime",
-    }
+    },
   },
   plugins: [
     Unocss(),
@@ -85,17 +85,17 @@ export default defineConfig({
     VitePWA(pwaOptions),
     replace({
       __DATE__: new Date().toISOString(),
-      __RELOAD_SW__: process.env.RELOAD_SW === 'true' ? 'true' : 'false',
+      __RELOAD_SW__: process.env.RELOAD_SW === "true" ? "true" : "false",
     }),
   ],
-  server:{
+  server: {
     //watch: {
     //    usePolling: isProd? false : true,
     //},
     //hmr: {clientPort: 3006, host:'localhost'},
-    https: {
-      key: fs.readFileSync(`${__dirname}/cert/privkey.pem`),
-      cert: fs.readFileSync(`${__dirname}/cert/fullchain.pem`),
-    },
-  }
-})
+    //https: {
+    //  key: fs.readFileSync(`${__dirname}/cert/privkey.pem`),
+    //  cert: fs.readFileSync(`${__dirname}/cert/fullchain.pem`),
+    //},
+  },
+});
