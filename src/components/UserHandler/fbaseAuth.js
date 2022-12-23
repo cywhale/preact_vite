@@ -1,13 +1,13 @@
-import * as firebaseAuth from "firebaseAuth";
-import { fbaseapp } from "./fbaseApp.js";
+import * as firebaseAuth from "firebaseAuth"
+import { fbaseapp } from "./fbaseApp.js"
 
-const { getAuth } = firebaseAuth;
+const { getAuth } = firebaseAuth
 
 export const {
   onAuthStateChanged,
   signOut,
   signInWithPopup,
   GoogleAuthProvider,
-} = firebaseAuth;
+} = firebaseAuth
 
-export const auth = getAuth(fbaseapp);
+export const auth = getAuth(fbaseapp)

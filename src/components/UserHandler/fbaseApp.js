@@ -1,14 +1,14 @@
-import * as firebaseApp from "firebaseApp";
-const { initializeApp, getApp, getApps } = firebaseApp;
+import * as firebaseApp from "firebaseApp"
+import { firebaseConfig } from './.credentials.development.js'
 
-firebaseConfig = {};
+const { initializeApp, getApp, getApps } = firebaseApp
 
-let fbapp;
+let fbapp
 
 if (getApps().length) {
-  fbapp = getApp();
+  fbapp = getApp()
 } else {
-  fbapp = initializeApp(firebaseConfig);
+  fbapp = initializeApp(firebaseConfig)
 }
 
-export const fbaseapp = fbapp;
+export const fbaseapp = fbapp

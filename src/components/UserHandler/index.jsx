@@ -1,147 +1,82 @@
 // @unocss-include
-import { memo } from "preact/compat";
-import { useState, useEffect, useCallback } from "preact/hooks";
+import { memo } from "preact/compat"
+import { useEffect, useCallback } from "preact/hooks"
+import useLogin from './useLogin'
+import SignIn from './SignIn'
 
-const getFirebaseAuth = () => import("./fbaseAuth.js");
-const {
-  auth,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-  GoogleAuthProvider,
-} = await getFirebaseAuth();
-const googleAuthProvider = new GoogleAuthProvider();
+const getFirebaseAuth = () => import("./fbaseAuth.js")
+const { auth, onAuthStateChanged, signOut } = await getFirebaseAuth()
 
-const SignIn = (props) => {
-  const { user, setUser } = props;
-  const iconurl = `/favicon.png`;
-  const renderFirePopup = useCallback((fireauth, fireprovider) => {
-    signInWithPopup(fireauth, fireprovider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        setUser((preState) => ({
-          ...preState,
-          name: result.user.displayName,
-          photoURL: result.user.photoURL,
-          auth: "gmail",
-          token: token,
-        }));
-      })
-      .catch((error) => {
-        if (user.auth === "") {
-          console.log(
-            "Gmail login error: ",
-            error.code,
-            "; ",
-            error.message,
-            " with ",
-            error.email,
-            " and ",
-            error.credential
-          );
-          alert(
-            "Gmail login error: Sometimes just connection failed, try sign in more times please."
-          );
-        }
-      });
-  }, []);
+const iconurl = `/pwa-192x192.png`
 
-  return (
-    <div class="flex flex-column flex-grow-1 justify-center">
-      <img
-        alt="Use Google account to sign in"
-        referrerpolicy="no-referrer"
-        class="max-w-100p h-auto"
-        src={iconurl}
-        width="60"
-      />
-      <div style="display:inline-block;">
-        <button class="xbutton" onClick={renderRedirect}>
-          ODB
-        </button>
-        <button
-          class="xbutton"
-          onClick={() => renderFirePopup(auth, googleAuthProvider)}
-        >
-          Google
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const UserHandler = () => {
-  const [user, setUser] = useState({
-    name: "",
-    auth: "",
-    photoURL: "",
-    token: "",
-  });
+const UserHandler = (props) => {
+  const user = { name: useLogin(useCallback(state => state.name, [])),
+                 photoURL: useLogin(useCallback(state => state.photoURL, [])),
+                 //token: useLogin(useCallback(state => state.token, []))
+               }
+  const setUser = (opts) => useLogin.getState().setLogin(opts)
 
   const waitFireAuth = () => {
     onAuthStateChanged(auth, (currUser) => {
       if (currUser) {
-        return setUser((preState) => ({
-          ...preState,
+        return setUser({ //(preState) => ({
+          //...preState,
           name: currUser.displayName,
           photoURL: currUser.photoURL,
           auth: "gmail",
-        }));
+        })
       }
-      return null;
-    });
-  };
+      return null
+    })
+  }
 
   const SignOut = () => {
-    if (user.auth === "gmail") {
-      signOut(auth);
-    }
-    setUser((preState) => ({
-      ...preState,
+    signOut(auth)
+    setUser({ //(preState) => ({
+      //...preState,
       name: "",
-      auth: "",
-      photoURL: "",
+      photoURL: {iconurl},
       token: "",
-    }));
-  };
+    })
+  }
 
   useEffect(() => {
-    waitFireAuth();
-  }, []);
+    waitFireAuth()
+  }, [])
 
   const CurrUser = (props) => {
-    const { name, photoURL } = props;
+    const { name, photoURL } = props
     return (
-      <article class={style.currentUser}>
+      <article class="flex items-bottom self-stretch justify-center flex-col pt">
         <img
           alt={name}
           referrerpolicy="no-referrer"
-          class={style.avatar}
+          class="avatar"
           src={photoURL}
           width="60"
         />
-        <button class="xbutton" onClick={SignOut}>
+        <button class="btn" onClick={SignOut}>
           Log out
         </button>
       </article>
-    );
-  };
+    )
+  }
 
   const Loginer = memo((props) => {
-    const { name, photoURL } = props;
+    const { name, photoURL } = props
 
     return (
-      <section class={style.flex}>
-        {name === "" && <SignIn user={user} setUser={setUser} />}
+      <section class="flex flex-glow-1 flex-col">
+        {name === "" && <SignIn />}
         {name !== "" && (
-          <div style="display:flex">
+          <div class="flex">
             <CurrUser name={name} photoURL={photoURL} />
           </div>
         )}
       </section>
-    );
-  });
+    )
+  })
 
-  return <Loginer name={user.name} photoURL={user.photoURL} />;
-};
+  return <Loginer name={user.name} photoURL={user.photoURL} />
+}
+export default UserHandler

@@ -1,6 +1,7 @@
 import { signal, effect } from '@preact/signals';
 import { useState } from 'preact/hooks'
 import { route } from 'preact-router'
+import UserHandler from '../components/UserHandler'
 import './Home.css'
 
 const themeSel = signal('light')
@@ -47,6 +48,9 @@ function Home() {
       <br/><br/>
       <div>
         <button className="i-carbon-moon dark:i-carbon-sun dark:text-white fill-white" type="submit" onClick={selectTheme} />
+      </div>
+      <div>
+        <UserHandler />
       </div>
     </div>
   )

@@ -24,7 +24,8 @@ export default defineConfig({
       "color-fade": "text-gray-900:50 dark:text-gray-300:50",
     },
     {
-      btn: "py-2 px-4 font-semibold rounded-lg shadow-md",
+      btn: "py-2 px-4 font-semibold rounded-lg shadow-md bg-blueGray border-0 m-2 hover:op50",
+      avatar: "p-1 my-2 rounded-8 bg-white op50 max-w-full h-auto"
     }, // dynamic shortcuts
     [
       /^btn-(.*)-(\d+)$/,
