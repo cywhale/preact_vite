@@ -71,8 +71,8 @@ export default defineConfig({
     extensions: [".js", ".jsx", "ts", "tsx"],
     mainFields: ["module"],
     alias: {
-      firebaseApp: "https://cdn.skypack.dev/firebase@9.13.0/app",
-      firebaseAuth: "https://cdn.skypack.dev/firebase@9.13.0/auth",
+      firebaseApp: "https://cdn.skypack.dev/firebase@9.15.0/app",
+      firebaseAuth: "https://cdn.skypack.dev/firebase@9.15.0/auth",
       react: "preact/compat",
       "react-dom": "preact/compat",
       "react-dom/test-utils": "preact/test-utils",
