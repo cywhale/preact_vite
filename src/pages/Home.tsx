@@ -1,59 +1,78 @@
-import { signal, effect } from '@preact/signals';
-import { useState } from 'preact/hooks'
-import { route } from 'preact-router'
-import UserHandler from '../components/UserHandler'
-import './Home.css'
+import { signal, effect } from "@preact/signals";
+import { useState } from "preact/hooks";
+import { route } from "preact-router";
+//import UserHandler from '../components/UserHandler'
+import "./Home.css";
 
-const themeSel = signal('light')
+const themeSel = signal("light");
 const selectTheme = () => {
-  let themeval = themeSel.value === 'light'? 'dark' : 'light';
+  let themeval = themeSel.value === "light" ? "dark" : "light";
   const root = window.document.documentElement;
-  const isDark = themeval === 'dark';
-  root.classList.remove(isDark? 'light' : 'dark');
+  const isDark = themeval === "dark";
+  root.classList.remove(isDark ? "light" : "dark");
   root.classList.add(themeval);
-  themeSel.value = themeval
-}
+  themeSel.value = themeval;
+};
 
 function Home() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
-  const [name, setName] = useState('')
+  const [name, setName] = useState("");
 
   // @ts-expect-error just ignore
   const handleChange = (event) => {
-    setName(event.target.value || '')
-  }
+    setName(event.target.value || "");
+  };
 
   // @ts-expect-error just ignore
   const handleSubmit = (event) => {
-    event.preventDefault()
-    if (name)
-      route(`/cli/hi/${name}`)
-  }
+    event.preventDefault();
+    if (name) route(`/cli/hi/${name}`);
+  };
 
   return (
     <div className="Home bg-base">
       <p>
-        <button className="btn-blue" type="button" onClick={() => setCount(count => count + 1)}>
-            count is: {count}
+        <button
+          className="btn-blue"
+          type="button"
+          onClick={() => setCount((count) => count + 1)}
+        >
+          count is: {count}
         </button>
       </p>
       <br />
       <form onSubmit={handleSubmit}>
-        <input value={name} onChange={handleChange} type="text" aria-label="What's your name?" placeholder="What's your name?" />
-        <button className="btn-blue-500" type="submit">GO</button>
+        <input
+          value={name}
+          onChange={handleChange}
+          type="text"
+          aria-label="What's your name?"
+          placeholder="What's your name?"
+        />
+        <button className="btn-blue-500" type="submit">
+          GO
+        </button>
       </form>
-      <br/>
-      <a className="dark:text-sky-300 dark:visited:text-violet-400" href="/cli/about">About</a>
-      <br/><br/>
+      <br />
+      <a
+        className="dark:text-sky-300 dark:visited:text-violet-400"
+        href="/cli/stac"
+      >
+        STAC
+      </a>
+      <br />
+      <br />
       <div>
-        <button className="i-carbon-moon dark:i-carbon-sun dark:text-white fill-white" type="submit" onClick={selectTheme} />
+        <button
+          className="i-carbon-moon dark:i-carbon-sun dark:text-white fill-white"
+          type="submit"
+          onClick={selectTheme}
+        />
       </div>
-      <div>
-        <UserHandler />
-      </div>
+      <div>{/* <UserHandler /> */}</div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
