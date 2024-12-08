@@ -1,21 +1,21 @@
-import { Router } from 'preact-router'
-import { createBrowserHistory } from 'history'
-import ReloadPrompt from './ReloadPrompt'
-import Home from './pages/Home'
-import About from './pages/About'
-import Hi from './pages/hi/[name]'
+import { Router } from "preact-router";
+import { createBrowserHistory } from "history";
+import ReloadPrompt from "./ReloadPrompt";
+import Home from "./pages/Home";
+import Stac from "./pages/Stac";
+import Hi from "./pages/hi/[name]";
 
-import './App.css'
-import 'uno.css'
+import "./App.css";
+import "uno.css";
 
 const history = createBrowserHistory({
-    basename: 'cli/' //process.env.PUBLIC_URL
+  basename: "cli/", //process.env.PUBLIC_URL
 });
 
 export function App() {
   // replaced dyanmicaly
   // <ReloadPrompt /> //if disable SW(PWA)
-  const date = '__DATE__'
+  const date = "__DATE__";
   return (
     <>
       <main className="App">
@@ -24,11 +24,11 @@ export function App() {
         <div className="Home-built">Built at: {date}</div>
         <Router history={history}>
           <Home default path="/cli" />
-          <About path="/cli/about" />
+          <Stac path="/cli/stac" />
           <Hi path="/cli/hi/:name" />
         </Router>
         <ReloadPrompt />
       </main>
     </>
-  )
+  );
 }
